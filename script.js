@@ -6,18 +6,6 @@ $(document).ready(function () {
     return $.get(`${API_SHORTCUT}/user`);
   };
 
-  //Function that posts a new user
-  const postUser = (event) => {
-    event.preventDefault();
-    //create an object
-    const userObject = {
-      name: $("#fullName"),
-      jobTitle: $("#jobTitle"),
-      companyName: $("#companyName"),
-    };
-    console.log(userObject);
-  };
-
   //Delete User Method
   const deleteUser = (id) => {
     //feed the
@@ -27,6 +15,34 @@ $(document).ready(function () {
       url: `${API_SHORTCUT}/user/${id}`,
       success: getUsers().done(renderData()),
     });
+  };
+
+  //Function that posts a new user
+  const postUser = (event) => {
+    event.preventDefault();
+    //create an object
+    const userObject = {
+      name: $("#fullName").val(),
+      jobTitle: $("#jobTitle").val(),
+      companyName: $("#companyName").val(),
+    };
+
+    $.ajax({
+      type: "POST",
+      url: `${API_SHORTCUT}/user`,
+      data: userObject,
+      dataType: "application/json", //what the data type is
+      success: getUsers().done(renderData()),
+    });
+
+
+
+
+    //reset form values
+
+    $("#fullName").val("");
+    $("#jobTitle").val("");
+    $("#companyName").val("");
   };
 
   const renderData = () => {
